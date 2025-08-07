@@ -10,7 +10,7 @@ export default async function APODPage() {
 
   try {
     const response = await fetch(apiUrl, {
-      next: { revalidate: 24 * 60 * 60 },
+      next: { revalidate: 1800 }, // Cache for 30 minutes
     });
     const apodData = await response.json();
 
@@ -23,7 +23,7 @@ export default async function APODPage() {
         <div className="w-full flex items-center justify-center">
           {apodData.media_type === 'image' && (
             <Image
-              className="max-w-full md:max-w-1/2 h-auto"
+              className="max-w-full md:max-w-3/4 h-auto"
               src={apodData.url}
               alt={apodData.title}
               width={800}
@@ -40,7 +40,7 @@ export default async function APODPage() {
                 { date: apodData.date },
                 { copyright: apodData.copyright },
                 {
-                  url: <StyledLink href={apodData.url}>View image</StyledLink>,
+                  url: <StyledLink href={apodData.hdurl}>View in HD</StyledLink>,
                 },
               ]}
             />

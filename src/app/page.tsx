@@ -4,7 +4,10 @@ export default function Home() {
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <h1 className="text-4xl font-bold">Explorer</h1>
-        <p className="text-lg text-gray-700">A web application to explore NASA API data.</p>
+        <p className="text-lg text-gray-700">
+          A web application to explore{' '}
+          <StyledLink href={'https://api.nasa.gov/'}>NASA API</StyledLink> data.
+        </p>
         <StyledLink href="/apod" target_blank={false}>
           Astronomy Photo of the Day
         </StyledLink>
