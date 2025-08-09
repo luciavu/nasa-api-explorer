@@ -20,7 +20,9 @@ const Table = ({ title, caption, data }: TableProps) => {
                 className="flex justify-between items-center border-b border-gray-400 py-1 text-sm"
               >
                 <span className="text-gray-400">{key}</span>
-                <span className="text-gray-700 font-medium truncate">{value}</span>
+                <span className="dark:text-gray-200 text-gray-700 font-medium truncate">
+                  {value || `N/A`}
+                </span>
               </div>
             ))}
           </div>

@@ -11,7 +11,7 @@ const StyledLink = ({ href, target_blank = true, children }: StyledLinkProps) =>
     <Link
       href={href}
       target={target_blank ? '_blank' : undefined}
-      className=" underline underline-offset-1 text-gray-500 hover:text-gray-800 transition-colors"
+      className=" underline underline-offset-1 text-gray-400 hover:text-gray-500 transition-colors"
     >
       {children}
     </Link>

@@ -7,8 +7,8 @@ interface HeadingProps {
 const Heading = ({ title, subtitle, text }: HeadingProps) => {
   return (
     <div>
-      <h1 className="text-2xl mb-2">{title}</h1>
-      <h2 className="text-gray-400 text-xl">{subtitle}</h2>
+      <h1 className="text-2xl mb-2 font-semibold dark:text-white text-black">{title}</h1>
+      <h2 className="text-gray-400 dark:text-gray-500 text-xl">{subtitle}</h2>
       <p>{text}</p>
     </div>
   );

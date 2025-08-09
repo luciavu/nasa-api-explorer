@@ -10,9 +10,11 @@ export default async function APODPage() {
 
   try {
     const response = await fetch(apiUrl, {
-      next: { revalidate: 1800 }, // Cache for 30 minutes
+      next: { revalidate: 3600 }, // Cache for 1 hour
     });
+
     const apodData = await response.json();
+    console.log('apod api call');
 
     if (!response.ok) {
       throw new Error(apodData.msg || 'Failed to fetch APOD');
