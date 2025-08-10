@@ -6,7 +6,7 @@ import StyledLink from '../StyledLink';
 
 export default async function APODPage() {
   const apiKey = process.env.NASA_API_KEY;
-  const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+  const apiUrl = `https://api.nasa.gov/planetary/apod?thumbs=true&api_key=${apiKey}`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -42,7 +42,11 @@ export default async function APODPage() {
                 { date: apodData.date },
                 { copyright: apodData.copyright },
                 {
-                  url: <StyledLink href={apodData.hdurl}>View in HD</StyledLink>,
+                  url: (
+                    <StyledLink type="underline" href={apodData.hdurl}>
+                      View in HD
+                    </StyledLink>
+                  ),
                 },
               ]}
             />
