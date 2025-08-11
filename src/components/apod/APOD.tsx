@@ -6,7 +6,7 @@ import StyledLink from '../StyledLink';
 
 export default async function APODPage() {
   const apiKey = process.env.NASA_API_KEY;
-  const apiUrl = `https://api.nasa.gov/planetary/apod?thumbs=true&api_key=${apiKey}`;
+  const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -23,7 +23,7 @@ export default async function APODPage() {
     return (
       <div className="container mx-auto p-4 flex flex-col justify-center md:flex-row md:items-center md:justify-between gap-4">
         <div className="w-full flex items-center justify-center">
-          {apodData.media_type === 'image' && (
+          {apodData.media_type === 'image' ? (
             <Image
               className="max-w-full md:max-w-3/4 h-auto"
               src={apodData.url}
@@ -32,10 +32,25 @@ export default async function APODPage() {
               height={600}
               priority
             />
+          ) : (
+            <div>
+              No preview available for this media type - please view{' '}
+              <StyledLink
+                type="underline"
+                href={`https://apod.nasa.gov/apod/ap${apodData.date
+                  .slice(2)
+                  .replace(/-/g, '')}.html`}
+              >
+                here.
+              </StyledLink>
+            </div>
           )}
         </div>
         <div className="w-full md:w-2/5 p-4">
-          <Heading title={apodData.title} subtitle="Today" />
+          <Heading
+            title={apodData.title}
+            subtitle={apodData.media_type.charAt(0).toUpperCase() + apodData.media_type.slice(1)}
+          />
           <div className="my-8">
             <Table
               data={[
@@ -43,7 +58,15 @@ export default async function APODPage() {
                 { copyright: apodData.copyright },
                 {
                   url: (
-                    <StyledLink type="underline" href={apodData.hdurl}>
+                    <StyledLink
+                      type="underline"
+                      href={
+                        apodData.hdurl ||
+                        `https://apod.nasa.gov/apod/ap${apodData.date
+                          .slice(2)
+                          .replace(/-/g, '')}.html`
+                      }
+                    >
                       View in HD
                     </StyledLink>
                   ),
@@ -52,7 +75,7 @@ export default async function APODPage() {
             />
           </div>
 
-          <Text text={apodData.explanation} />
+          <Text>{apodData.explanation} </Text>
         </div>
       </div>
     );

@@ -12,7 +12,7 @@ const StyledLink = ({ href, type, target_blank = true, children }: StyledLinkPro
     case 'summary':
       return (
         <Link href={href} target={target_blank ? '_blank' : undefined} className="text-white">
-          <div className="aspect-square bg-black/10 rounded-lg p-4 flex flex-col justify-between hover:outline-1 outline-gray-300/60  transition-colors">
+          <div className="backdrop-blur-sm aspect-square bg-black/10 rounded-lg p-4 flex flex-col justify-between hover:scale-101 transition-transform">
             {children}
           </div>
         </Link>

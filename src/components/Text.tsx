@@ -1,12 +1,14 @@
 import React from 'react';
 
 interface TextProps {
-  text: string;
+  children: React.ReactNode;
 }
 
-const Text = ({ text }: TextProps) => {
+const Text = ({ children }: TextProps) => {
   return (
-    <p className="mt-4 text-sm text-wrap text-justify text-gray-600 dark:text-gray-500">{text}</p>
+    <p className="mt-4 text-sm text-wrap text-justify text-gray-600 dark:text-gray-500">
+      {children}
+    </p>
   );
 };
 
