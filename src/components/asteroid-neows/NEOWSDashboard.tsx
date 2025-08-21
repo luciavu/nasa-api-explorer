@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Heading from '../Heading';
+import Button from '../Button';
 
 interface NEOWSDashboardProps {
   numAsteroids: number;
@@ -17,7 +18,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
     'name',
     //'url',
     //'abs_mag',
-    'diameter_km',
+    'diameter_m',
     'is_hazardous',
     'approach_time',
     //'approach_epoch',
@@ -31,7 +32,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
     name: neo.name,
     //url: neo.nasa_jpl_url,
     //abs_mag: neo.absolute_magnitude_h.toFixed(2),
-    diameter_km: neo.estimated_diameter.kilometers.estimated_diameter_max.toFixed(2),
+    diameter_m: neo.estimated_diameter.meters.estimated_diameter_max.toFixed(2),
     is_hazardous: neo.is_potentially_hazardous_asteroid ? 'true' : 'false',
     approach_time: neo.close_approach_data[0].close_approach_date_full.slice(-4),
     //approach_epoch: neo.close_approach_data[0].epoch_date_close_approach,
@@ -54,24 +55,45 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
           new Date(endDate).toLocaleDateString()
         }
       />
-      <div className="flex mt-4">
-        <aside className="w-64 border-r border-gray-300 h-full overflow-y-auto p-4">
-          <h2 className="text-lg font-semibold mb-4">Available Dates</h2>
-          <ul className="space-y-2">
+      <div className="flex flex-col mt-4">
+        <aside className="w-full border-b border-gray-300 h-full  p-4">
+          <ul className="flex space-x-4 w-100% overflow-y-auto ">
             {dates.map((date) => (
               <li
                 key={date}
-                className={`cursor-pointer p-2 rounded ${
-                  selectedDate === date ? 'bg-gray-100' : 'hover:bg-gray-100'
+                className={`cursor-pointer p-2 rounded dark:text-white/90 ${
+                  selectedDate === date
+                    ? 'bg-gray-100 dark:bg-gray-900 text-gray-900 '
+                    : 'hover:bg-gray-100 hover:dark:bg-gray-900'
                 }`}
                 onClick={() => setSelectedDate(date)}
               >
-                {date}
+                {new Date(date).toLocaleDateString().slice(0, -5)}
               </li>
             ))}
           </ul>
         </aside>
         <div className="p-4">
+          <h3 className="text-lg font-semibold mb-2 dark:text-white">
+            Asteroids on {new Date(selectedDate).toLocaleDateString()}
+          </h3>
+          <p className="text-sm text-gray-600">{neoData[selectedDate].length} asteroids found.</p>
+          <Button>Sort By</Button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-2">
+            {rowData.map((row, index) => (
+              <div
+                key={index}
+                className="border p-4 rounded-lg dark:border-white/20 dark:text-white"
+              >
+                {labels.map((label) => (
+                  <div className={label === 'name' ? 'text-2xl font-semibold' : 'text-sm'}>
+                    {label}: {row[label]}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          {/*
           <table className="table-auto w-full text-sm border border-collapse border-gray-300 overflow-auto">
             <thead>
               <tr>
@@ -99,6 +121,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
               ))}
             </tbody>
           </table>
+          */}
         </div>
       </div>
     </>

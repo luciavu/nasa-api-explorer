@@ -7,7 +7,7 @@ const infoCards = [
     icon: <BiPlanet className="text-2xl text-gray-400 mb-2" />,
     heading: 'APOD: Astronomy Picture of the Day',
     description:
-      "One of NASA's most popular websites. Features a daily photograph of our universe and an explanation written by a professional astronomer.",
+      "One of NASA's most popular websites. Features a daily photograph of our universe and an astronomer's explanation.",
   },
   {
     href: '/asteroids-neows',
