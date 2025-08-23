@@ -8,3 +8,10 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.rock-icon {
+  width: 5rem;
+  height: 5rem;
+  background-image: url('/rock.svg');
+  background-size: cover;
+}

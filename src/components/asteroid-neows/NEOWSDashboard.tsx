@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Heading from '../Heading';
 import Text from '../Text';
 import Dropdown from '../Dropdown';
+import InfoCard from './InfoCard';
+import StyledLink from '../StyledLink';
 
 interface NEOWSDashboardProps {
   numAsteroids: number;
@@ -18,33 +20,50 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
   const dates = Object.keys(neoData).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   const labels = [
     'name',
-    //'url',
-    //'abs_mag',
+    'url',
+    'abs_mag',
     'diameter_m',
     'is_hazardous',
     'approach_time',
-    //'approach_epoch',
+    'approach_epoch',
     'velocity_kmh',
     'miss_distance_km',
-    //'orbiting_body',
-    //'is_sentry_object',
+    'orbiting_body',
+    'is_sentry_object',
   ];
 
   const rowData = neoData[selectedDate].map((neo) => ({
     name: neo.name,
-    //url: neo.nasa_jpl_url,
-    //abs_mag: neo.absolute_magnitude_h.toFixed(2),
+    url: neo.nasa_jpl_url,
+    abs_mag: neo.absolute_magnitude_h.toFixed(2),
     diameter_m: neo.estimated_diameter.meters.estimated_diameter_max.toFixed(2),
     is_hazardous: neo.is_potentially_hazardous_asteroid ? 'true' : 'false',
-    approach_time: neo.close_approach_data[0].close_approach_date_full.slice(-4),
-    //approach_epoch: neo.close_approach_data[0].epoch_date_close_approach,
-    velocity_kmh: parseFloat(
-      neo.close_approach_data[0].relative_velocity.kilometers_per_hour
-    ).toFixed(2),
-    miss_distance_km: parseFloat(neo.close_approach_data[0].miss_distance.kilometers).toFixed(2),
-    //orbiting_body: neo.close_approach_data[0].orbiting_body,
-    //is_sentry_object: neo.is_sentry_object ? 'true' : 'false',
+    approach_time: neo.close_approach_data[0].close_approach_date_full,
+    approach_epoch: neo.close_approach_data[0].epoch_date_close_approach,
+    velocity_kmh: parseFloat(neo.close_approach_data[0].relative_velocity.kilometers_per_hour),
+    miss_distance_km: parseFloat(neo.close_approach_data[0].miss_distance.kilometers),
+    orbiting_body: neo.close_approach_data[0].orbiting_body,
+    is_sentry_object: neo.is_sentry_object ? 'true' : 'false',
   }));
+
+  rowData.sort((a, b) => {
+    switch (sortBy) {
+      case 'Approach time':
+        return a.approach_time.localeCompare(b.approach_time);
+      case 'Name':
+        return a.name.localeCompare(b.name);
+      case 'Diameter (m)':
+        return parseFloat(b.diameter_m) - parseFloat(a.diameter_m);
+      case 'Hazardous':
+        return a.is_hazardous.localeCompare(b.is_hazardous);
+      case 'Velocity (km/h)':
+        return b.velocity_kmh - a.velocity_kmh;
+      case 'Miss distance (km)':
+        return b.miss_distance_km - a.miss_distance_km;
+      default:
+        return 0;
+    }
+  });
 
   return (
     <>
@@ -77,6 +96,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
           <Text>{neoData[selectedDate].length} results found.</Text>
 
           <Dropdown
+            id="neows-sort"
             label="Sort by:"
             options={[
               'Approach time',
@@ -88,49 +108,33 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
             ]}
             onChange={(value) => setSortBy(value)}
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
             {rowData.map((row, index) => (
               <div
                 key={index}
-                className="border p-4 rounded-lg dark:border-white/20 dark:text-white"
+                className="border p-2 rounded-lg dark:border-gray-800 dark:text-white md:p-4"
               >
-                {labels.map((label) => (
-                  <div className={label === 'name' ? 'text-2xl font-semibold' : 'text-sm'}>
-                    {label}: {row[label]}
-                  </div>
-                ))}
+                <InfoCard
+                  name={row['name']}
+                  approach_time={row['approach_time']}
+                  diameter={row['diameter_m']}
+                  hazardous={row['is_hazardous'] === 'true'}
+                  velocity={row['velocity_kmh']}
+                  miss_distance={row['miss_distance_km']}
+                />
               </div>
             ))}
           </div>
-          {/*
-          <table className="table-auto w-full text-sm border border-collapse border-gray-300 overflow-auto">
-            <thead>
-              <tr>
-                {labels.map((label) => (
-                  <th key={label} className="border p-2 text-left">
-                    {label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rowData.map((row, index) => (
-                <tr key={index}>
-                  {labels.map((label) => (
-                    <td
-                      key={label}
-                      className={
-                        row[label] === 'true' ? 'border p-2 bg-red-200 text-red-700' : 'border p-2'
-                      }
-                    >
-                      {row[label]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          */}
+
+          <Text>
+            Asteroid SVG Credit:{' '}
+            <StyledLink
+              href="https://science.nasa.gov/solar-system/asteroids/facts/"
+              type="underline"
+            >
+              NASA
+            </StyledLink>
+          </Text>
         </div>
       </div>
     </>
