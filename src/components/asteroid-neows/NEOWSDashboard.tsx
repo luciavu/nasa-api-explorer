@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Heading from '../Heading';
-import Button from '../Button';
+import Text from '../Text';
+import Dropdown from '../Dropdown';
 
 interface NEOWSDashboardProps {
   numAsteroids: number;
@@ -12,6 +13,7 @@ interface NEOWSDashboardProps {
 
 const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDashboardProps) => {
   const [selectedDate, setSelectedDate] = useState(Object.keys(neoData)[0] || '');
+  const [sortBy, setSortBy] = useState('Approach time');
 
   const dates = Object.keys(neoData).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   const labels = [
@@ -48,12 +50,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
     <>
       <Heading
         title={`${numAsteroids} Asteroids found.`}
-        subtitle={
-          'From ' +
-          new Date(startDate).toLocaleDateString() +
-          ' to ' +
-          new Date(endDate).toLocaleDateString()
-        }
+        subtitle={'From ' + startDate + ' to ' + endDate}
       />
       <div className="flex flex-col mt-4">
         <aside className="w-full border-b border-gray-300 h-full  p-4">
@@ -61,7 +58,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
             {dates.map((date) => (
               <li
                 key={date}
-                className={`cursor-pointer p-2 rounded dark:text-white/90 ${
+                className={`cursor-pointer px-4 py-1 rounded dark:text-white/90 ${
                   selectedDate === date
                     ? 'bg-gray-100 dark:bg-gray-900 text-gray-900 '
                     : 'hover:bg-gray-100 hover:dark:bg-gray-900'
@@ -74,11 +71,23 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
           </ul>
         </aside>
         <div className="p-4">
-          <h3 className="text-lg font-semibold mb-2 dark:text-white">
+          <h3 className="text-lg font-semibold dark:text-white">
             Asteroids on {new Date(selectedDate).toLocaleDateString()}
           </h3>
-          <p className="text-sm text-gray-600">{neoData[selectedDate].length} asteroids found.</p>
-          <Button>Sort By</Button>
+          <Text>{neoData[selectedDate].length} results found.</Text>
+
+          <Dropdown
+            label="Sort by:"
+            options={[
+              'Approach time',
+              'Name',
+              'Diameter (m)',
+              'Hazardous',
+              'Velocity (km/h)',
+              'Miss distance (km)',
+            ]}
+            onChange={(value) => setSortBy(value)}
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-2">
             {rowData.map((row, index) => (
               <div

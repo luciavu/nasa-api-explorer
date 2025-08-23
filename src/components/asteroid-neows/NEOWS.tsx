@@ -17,15 +17,15 @@ const NEOWS = async () => {
       throw new Error(neoData.msg || 'Failed to fetch NEO data');
     }
 
-    const startDate = neoData.links.self.slice(48, 58);
-    const endDate = neoData.links.next.slice(68, 78);
-
+    const startDate = new Date(neoData.links.self.slice(48, 58));
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 7);
     return (
       <>
         <NEOWSDashboard
           numAsteroids={neoData.element_count}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={startDate.toLocaleDateString()}
+          endDate={endDate.toLocaleDateString()}
           neoData={neoData.near_earth_objects}
         />
       </>

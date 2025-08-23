@@ -6,9 +6,7 @@ interface TextProps {
 
 const Text = ({ children }: TextProps) => {
   return (
-    <p className="mt-4 text-sm text-wrap text-justify text-gray-600 dark:text-gray-500">
-      {children}
-    </p>
+    <p className="text-sm text-wrap text-justify text-gray-600 dark:text-gray-500">{children}</p>
   );
 };
 
