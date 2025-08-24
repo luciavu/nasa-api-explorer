@@ -21,63 +21,66 @@ export default async function APODPage() {
     }
 
     return (
-      <div className="container mx-auto p-4 flex flex-col justify-center md:flex-row md:items-center md:justify-between gap-4">
-        <div className="w-full flex items-center justify-center">
-          {apodData.media_type === 'image' ? (
-            <Image
-              className="max-w-full md:max-w-3/4 h-auto"
-              src={apodData.url}
-              alt={apodData.title}
-              width={800}
-              height={600}
-              priority
-            />
-          ) : (
-            <div>
-              No preview available for this media type - please view{' '}
-              <StyledLink
-                type="underline"
-                href={`https://apod.nasa.gov/apod/ap${apodData.date
-                  .slice(2)
-                  .replace(/-/g, '')}.html`}
-              >
-                here.
-              </StyledLink>
-            </div>
-          )}
-        </div>
-        <div className="w-full md:w-2/5 p-4">
-          <Heading
-            title={apodData.title}
-            subtitle={apodData.media_type.charAt(0).toUpperCase() + apodData.media_type.slice(1)}
-          />
-          <div className="my-8">
-            <Table
-              data={[
-                { date: apodData.date },
-                { copyright: apodData.copyright },
-                {
-                  url: (
-                    <StyledLink
-                      type="underline"
-                      href={
-                        apodData.hdurl ||
-                        `https://apod.nasa.gov/apod/ap${apodData.date
-                          .slice(2)
-                          .replace(/-/g, '')}.html`
-                      }
-                    >
-                      View in HD
-                    </StyledLink>
-                  ),
-                },
-              ]}
-            />
+      <>
+        {' '}
+        <div className="container mx-auto p-4 flex flex-col justify-center lg:flex-row md:items-center md:justify-between gap-4">
+          <div className="w-full flex items-center justify-center">
+            {apodData.media_type === 'image' ? (
+              <Image
+                className="max-w-full md:max-w-3/4 h-auto"
+                src={apodData.url}
+                alt={apodData.title}
+                width={800}
+                height={600}
+                priority
+              />
+            ) : (
+              <div>
+                No preview available for this media type - please view{' '}
+                <StyledLink
+                  type="underline"
+                  href={`https://apod.nasa.gov/apod/ap${apodData.date
+                    .slice(2)
+                    .replace(/-/g, '')}.html`}
+                >
+                  here.
+                </StyledLink>
+              </div>
+            )}
           </div>
+          <div className="w-full lg:w-2/5 p-4">
+            <Heading
+              title={apodData.title}
+              subtitle={apodData.media_type.charAt(0).toUpperCase() + apodData.media_type.slice(1)}
+            />
+            <div className="my-8">
+              <Table
+                data={[
+                  { date: apodData.date },
+                  { copyright: apodData.copyright },
+                  {
+                    url: (
+                      <StyledLink
+                        type="underline"
+                        href={
+                          apodData.hdurl ||
+                          `https://apod.nasa.gov/apod/ap${apodData.date
+                            .slice(2)
+                            .replace(/-/g, '')}.html`
+                        }
+                      >
+                        View in HD
+                      </StyledLink>
+                    ),
+                  },
+                ]}
+              />
+            </div>
 
-          <Text>{apodData.explanation} </Text>
+            <Text>{apodData.explanation} </Text>
+          </div>
         </div>
-      </div>
+      </>
     );
   } catch (error) {
     if (error instanceof Error) {

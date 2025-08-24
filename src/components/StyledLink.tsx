@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { BiPlanet } from 'react-icons/bi';
+
 interface StyledLinkProps {
   href: string;
   target_blank?: boolean;
@@ -9,6 +9,15 @@ interface StyledLinkProps {
 }
 const StyledLink = ({ href, type, target_blank = true, children }: StyledLinkProps) => {
   switch (type) {
+    case 'card':
+      return (
+        <Link href={href} target={target_blank ? '_blank' : undefined}>
+          <div className="h-full border p-4 rounded-lg dark:border-gray-800 border-gray-400 dark:text-white hover:scale-101 transition-transform">
+            {children}
+          </div>
+        </Link>
+      );
+
     case 'summary':
       return (
         <Link href={href} target={target_blank ? '_blank' : undefined} className="text-white">

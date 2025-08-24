@@ -1,4 +1,4 @@
-import NEOWS from '@/components/asteroid-neows/NEOWS';
+import NEOWS from '@/components/asteroids-neows/NEOWS';
 import React from 'react';
 
 const page = () => {

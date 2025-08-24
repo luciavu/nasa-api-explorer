@@ -18,32 +18,19 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
   const [sortBy, setSortBy] = useState('Approach time');
 
   const dates = Object.keys(neoData).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-  const labels = [
-    'name',
-    'url',
-    'abs_mag',
-    'diameter_m',
-    'is_hazardous',
-    'approach_time',
-    'approach_epoch',
-    'velocity_kmh',
-    'miss_distance_km',
-    'orbiting_body',
-    'is_sentry_object',
-  ];
 
   const rowData = neoData[selectedDate].map((neo) => ({
     name: neo.name,
     url: neo.nasa_jpl_url,
-    abs_mag: neo.absolute_magnitude_h.toFixed(2),
+    //abs_mag: neo.absolute_magnitude_h.toFixed(2),
     diameter_m: neo.estimated_diameter.meters.estimated_diameter_max.toFixed(2),
     is_hazardous: neo.is_potentially_hazardous_asteroid ? 'true' : 'false',
     approach_time: neo.close_approach_data[0].close_approach_date_full,
-    approach_epoch: neo.close_approach_data[0].epoch_date_close_approach,
+    //approach_epoch: neo.close_approach_data[0].epoch_date_close_approach,
     velocity_kmh: parseFloat(neo.close_approach_data[0].relative_velocity.kilometers_per_hour),
     miss_distance_km: parseFloat(neo.close_approach_data[0].miss_distance.kilometers),
-    orbiting_body: neo.close_approach_data[0].orbiting_body,
-    is_sentry_object: neo.is_sentry_object ? 'true' : 'false',
+    //orbiting_body: neo.close_approach_data[0].orbiting_body,
+    //is_sentry_object: neo.is_sentry_object ? 'true' : 'false',
   }));
 
   rowData.sort((a, b) => {
@@ -67,6 +54,21 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
 
   return (
     <>
+      <p className="text-4xl font-semibold mb-4 mt-10 dark:text-white">
+        Asteroid NeoWs: Near Earth Object Web Service
+      </p>
+      <p className="text-md mb-2 dark:text-white">
+        <strong>Dataset:</strong>{' '}
+        <StyledLink type="underline" href="http://neo.jpl.nasa.gov">
+          NASA JPL Asteroid team
+        </StyledLink>
+      </p>
+      <p className="text-md mb-10">
+        <strong className="dark:text-white">API:</strong>{' '}
+        <StyledLink type="underline" href="https://github.com/SpaceRocks/">
+          SpaceRocks Team: David Greenfield, Arezu Sarvestani, Jason English and Peter Baunach.
+        </StyledLink>
+      </p>
       <Heading
         title={`${numAsteroids} Asteroids found.`}
         subtitle={'From ' + startDate + ' to ' + endDate}
@@ -110,12 +112,10 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
             {rowData.map((row, index) => (
-              <div
-                key={index}
-                className="border p-2 rounded-lg dark:border-gray-800 dark:text-white md:p-4"
-              >
+              <div key={index}>
                 <InfoCard
-                  name={row['name']}
+                  url={row['url']}
+                  name={row['name'].replaceAll('(', '').replaceAll(')', '')}
                   approach_time={row['approach_time']}
                   diameter={row['diameter_m']}
                   hazardous={row['is_hazardous'] === 'true'}
