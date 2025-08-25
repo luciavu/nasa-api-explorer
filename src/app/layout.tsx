@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Providers from './provider';
+import StyledLink from '@/components/StyledLink';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -9,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Explorer',
+  title: 'NASA Open API Explorer',
   description: 'A web appplication to explore NASA API data',
 };
 

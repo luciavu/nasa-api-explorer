@@ -1,4 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import StyledLink from '@/components/StyledLink';
 import React from 'react';
 
 interface LayoutProps {

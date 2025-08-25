@@ -5,6 +5,7 @@ import Text from '../Text';
 import Dropdown from '../Dropdown';
 import InfoCard from './InfoCard';
 import StyledLink from '../StyledLink';
+import Title from '../Title';
 
 interface NEOWSDashboardProps {
   numAsteroids: number;
@@ -54,21 +55,21 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
 
   return (
     <>
-      <p className="text-4xl font-semibold mb-4 mt-10 dark:text-white">
-        Asteroid NeoWs: Near Earth Object Web Service
-      </p>
-      <p className="text-md mb-2 dark:text-white">
-        <strong>Dataset:</strong>{' '}
-        <StyledLink type="underline" href="http://neo.jpl.nasa.gov">
-          NASA JPL Asteroid team
-        </StyledLink>
-      </p>
-      <p className="text-md mb-10">
-        <strong className="dark:text-white">API:</strong>{' '}
-        <StyledLink type="underline" href="https://github.com/SpaceRocks/">
-          SpaceRocks Team: David Greenfield, Arezu Sarvestani, Jason English and Peter Baunach.
-        </StyledLink>
-      </p>
+      <Title heading="Asteroid NeoWs: Near Earth Object Web Service">
+        <p className="mb-2">
+          <strong>Dataset:</strong>{' '}
+          <StyledLink type="underline" href="http://neo.jpl.nasa.gov">
+            NASA JPL Asteroid team
+          </StyledLink>
+        </p>
+        <p className="mb-10">
+          <strong>API:</strong>{' '}
+          <StyledLink type="underline" href="https://github.com/SpaceRocks/">
+            SpaceRocks Team: David Greenfield, Arezu Sarvestani, Jason English and Peter Baunach.
+          </StyledLink>
+        </p>
+      </Title>
+
       <Heading
         title={`${numAsteroids} Asteroids found.`}
         subtitle={'From ' + startDate + ' to ' + endDate}
@@ -110,7 +111,7 @@ const NEOWSDashboard = ({ numAsteroids, startDate, endDate, neoData }: NEOWSDash
             ]}
             onChange={(value) => setSortBy(value)}
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-10">
             {rowData.map((row, index) => (
               <div key={index}>
                 <InfoCard

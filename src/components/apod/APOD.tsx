@@ -3,6 +3,7 @@ import Heading from '../Heading';
 import Table from '../Table';
 import Text from '../Text';
 import StyledLink from '../StyledLink';
+import Title from '../Title';
 
 export default async function APODPage() {
   const apiKey = process.env.NASA_API_KEY;
@@ -22,8 +23,7 @@ export default async function APODPage() {
 
     return (
       <>
-        {' '}
-        <div className="container mx-auto p-4 flex flex-col justify-center lg:flex-row md:items-center md:justify-between gap-4">
+        <div className="mt-10 container mx-auto p-4 flex flex-col justify-center lg:flex-row md:items-center md:justify-between gap-4">
           <div className="w-full flex items-center justify-center">
             {apodData.media_type === 'image' ? (
               <Image
