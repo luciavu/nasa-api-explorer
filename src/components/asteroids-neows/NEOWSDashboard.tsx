@@ -11,6 +11,7 @@ interface NEOWSDashboardProps {
   numAsteroids: number;
   startDate: string;
   endDate: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   neoData: Record<string, any[]>;
 }
 
